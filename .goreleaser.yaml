@@ -1,0 +1,65 @@
+# This is an example .goreleaser.yml file with some sensible defaults.
+# Make sure to check the documentation at https://goreleaser.com
+
+# The lines below are called `modelines`. See `:help modeline`
+# Feel free to remove those if you don't want/need to use them.
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj
+
+version: 1
+
+  # before:
+  #   hooks:
+  #     # You may remove this if you don't use go modules.
+  #     - make
+
+dockers:
+  # You can have multiple Docker images.
+  - #
+    # ID of the image, needed if you want to filter by it later on (e.g. on custom publishers).
+    id: coredns
+
+    # GOOS of the built binaries/packages that should be used.
+    # Default: 'linux'
+    goos: linux
+
+    # GOARCH of the built binaries/packages that should be used.
+    # Default: 'amd64'
+    goarch: amd64
+
+    # GOARM of the built binaries/packages that should be used.
+    # Default: '6'
+    goarm: ""
+
+    # GOAMD64 of the built binaries/packages that should be used.
+    # Default: 'v1'
+    goamd64: "v2"
+
+    # Templates of the Docker image names.
+    #
+    # Templates: allowed
+    image_templates:
+      - "grumps/coredns:latest"
+      - "grumps/coredns:{{ .Tag }}"
+      - "grumps/coredns:v{{ .Major }}"
+
+    # Path to the Dockerfile (from the project root).
+    #
+    #
+    # Default: 'Dockerfile'
+    # Templates: allowed
+    dockerfile: 'Dockerfile'
+
+    # Docker build flags.
+    #
+    # Templates: allowed
+    build_flag_templates:
+      - "--pull"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--build-arg=TARGETPLATFORM=linux/amd64"
+      - "--build-arg=BUILDPLATFORM=linux/amd64"
+    extra_files:
+      - coredns
