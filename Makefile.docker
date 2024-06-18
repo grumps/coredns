@@ -48,13 +48,12 @@ image-download:
 ifeq ($(VERSION),)
 	$(error "Please specify a version use. Use VERSION=<version>")
 endif
-
+	@# TODO need to add `-s` back to curl
 	@# 0. Check until all asset are alive, up to 10 min (asset may not be alive immediately after upload)
 	try_max=20; try_sleep=30; \
 	for arch in $(LINUX_ARCH); do \
 		asset=coredns_$(VERSION)_linux_$${arch}.tgz; \
 		for i in $$(seq 1 $$try_max ); do \
-			# TODO add -s back
 			if [ $$(curl -I -L -o /dev/null -w "%{http_code}" $(GITHUB)/v$(VERSION)/$$asset) -eq 200 ]; then \
 				echo "$$asset is live" ; break; \
 			else  \
