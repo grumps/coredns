@@ -54,7 +54,8 @@ endif
 	for arch in $(LINUX_ARCH); do \
 		asset=coredns_$(VERSION)_linux_$${arch}.tgz; \
 		for i in $$(seq 1 $$try_max ); do \
-			if [ $$(curl -I -L -s -o /dev/null -w "%{http_code}" $(GITHUB)/v$(VERSION)/$$asset) -eq 200 ]; then \
+			# TODO add -s back
+			if [ $$(curl -I -L -o /dev/null -w "%{http_code}" $(GITHUB)/v$(VERSION)/$$asset) -eq 200 ]; then \
 				echo "$$asset is live" ; break; \
 			else  \
 				echo "$$asset is not live yet..." ; sleep $$try_sleep ; \
