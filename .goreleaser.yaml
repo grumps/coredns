@@ -8,10 +8,10 @@
 
 version: 1
 
-  # before:
-  #   hooks:
-  #     # You may remove this if you don't use go modules.
-  #     - make
+before:
+  hooks:
+    # You may remove this if you don't use go modules.
+    - make VERSION={{ .Env.RELEASE }} DOCKER=coredns -f Makefile.docker images-download
 
 dockers:
   # You can have multiple Docker images.
