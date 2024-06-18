@@ -12,6 +12,7 @@ before:
   hooks:
     # You may remove this if you don't use go modules.
     - make VERSION={{ .Env.RELEASE }} DOCKER=coredns -f Makefile.docker image-download
+    - cp build/docker/amd64/coredns coredns
 
 dockers:
   # You can have multiple Docker images.
