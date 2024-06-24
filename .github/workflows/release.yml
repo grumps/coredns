@@ -44,6 +44,7 @@ jobs:
           echo ${{ steps.info.outputs.version }}
           cat release.md
           sha256sum release/*.tgz
+          echo "log done"
       - name: Draft release
         uses: softprops/action-gh-release@69320dbe05506a9a39fc8ae11030b214ec2d1f87
         with:
