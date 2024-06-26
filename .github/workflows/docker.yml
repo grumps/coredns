@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build Docker Images
-        run: make VERSION=${RELEASE:1} DOCKER=coredns -f Makefile.docker release
+        run: make VERSION=${RELEASE:1} DOCKER=grumps -f Makefile.docker release
       - name: Show Docker Images
         run: docker images
       - name: Docker login
