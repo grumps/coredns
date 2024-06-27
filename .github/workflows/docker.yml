@@ -21,7 +21,7 @@ jobs:
       RELEASE: ${{ github.event.inputs.release || github.event.release.tag_name }}
     steps:
       - uses: actions/checkout@v4
-      - name: Build Docker Images
+      - name: Build Docker Images for DockerHub
         run: make VERSION=${RELEASE:1} DOCKER=grumps -f Makefile.docker release
       - name: Show Docker Images
         run: docker images
@@ -30,5 +30,15 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - name: Publish Docker Images
+      - name: Publish Images to DockerHub
         run: make VERSION=${RELEASE:1} DOCKER=grumps -f Makefile.docker docker-push
+      - name: Build Docker Images for GHCR
+        run: make VERSION=${RELEASE:1} DOCKER=ghcr.io/grumps -f Makefile.docker docker-build
+      - name: Docker login ghcr.io
+        uses: docker/login-action@0d4c9c5ea7693da7b068278f7b52bda2a190a446  # v3.2.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish Docker Images to GHCR
+        run: make VERSION=${RELEASE:1} DOCKER=ghcr.io/grumps -f Makefile.docker docker-push
